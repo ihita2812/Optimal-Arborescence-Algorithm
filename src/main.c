@@ -116,10 +116,13 @@ int main(int argc, char* argv[]) {
                         if (graph[start-1][end-1] == -1) {
                             graph[start-1][end-1] = weight;
                         } else {
-                            graph[start-1][end-1] = min(graph[start-1][end-1], weight);
+                            if (weight < graph[start-1][end-1])
+                                graph[start-1][end-1] = weight;
                         }
                     }
                 }
+
+                min_arbrorescence(graph, N, R);
             }
         }
 
@@ -177,7 +180,8 @@ int main(int argc, char* argv[]) {
                 if (graph[start-1][end-1] == -1) {
                     graph[start-1][end-1] = weight;
                 } else {
-                    graph[start-1][end-1] = min(graph[start-1][end-1], weight);
+                    if (weight < graph[start-1][end-1])
+                        graph[start-1][end-1] = weight;
                 }
             }
         }
