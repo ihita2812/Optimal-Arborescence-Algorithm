@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "../include/solver.h"
 
 void help() {
     printf("\n-------------------------------------------------------\n");
@@ -81,20 +82,42 @@ int main(int argc, char* argv[]) {
                     exit(1);
                 }
 
-                graph = (int**)malloc(M * sizeof(int*));
-                for (int edge = 0; edge < M; edge++) 
-                    graph[edge] = (int*)malloc(3 * sizeof(int));
-                
+                graph = (int**)malloc(N * sizeof(int*));
+                for (int i=0; i<N; i++)
+                    graph[i] = (int*)malloc(N * sizeof(int));
+            
+                for (int i=0; i<N; i++) {
+                    for (int j=0; j<N; j++) {
+                        graph[i][j] = -1;
+                    }
+                }
+
                 for (int edge = 0; edge < M; edge++) {
-                    if (fscanf(fp, "%d %d %d", &graph[edge][0], &graph[edge][1], &graph[edge][2]) == 0) {
+                    int start, end, weight;
+                    if (fscanf(fp, "%d %d %d", &start, &end, &weight) == 0) {
                         printf("ERROR IN FILE FORMATTING.\nSee help-\n");
                         help();
                         exit(1);
                     }
-                    if (graph[edge][0] > N || graph[edge][0] < 0 || graph[edge][1] > N || graph[edge][1] < 0) {
-                        printf("INCORRECT VALUE OF <starting node> OR <ending node>!\nSee help-\n");
+                    if (start > N || start < 1 || end > N || end < 1) {
+                        printf("INVALID VALUE OF <starting node> OR <ending node>!\nSee help-\n");
                         help();
                         exit(1);
+                    }
+                    if (weight < 0) {
+                        printf("WEIGHT VALUE SHOULD BE >= 0!\nSee help-\n");
+                        help();
+                        exit(1);
+                    }
+
+                    if (start == end || end == R) {
+                        //do nothing
+                    } else {
+                        if (graph[start-1][end-1] == -1) {
+                            graph[start-1][end-1] = weight;
+                        } else {
+                            graph[start-1][end-1] = min(graph[start-1][end-1], weight);
+                        }
                     }
                 }
             }
@@ -119,25 +142,46 @@ int main(int argc, char* argv[]) {
             exit(1);
         }
 
-        graph = (int**)malloc(M * sizeof(int*));
-        for (int edge = 0; edge < M; edge++) 
-            graph[edge] = (int*)malloc(3 * sizeof(int));
-        
-        printf("\nInput values for each edge in format\n");
-        printf("<starting node> <ending node> <weight of edge>:\n");
+        graph = (int**)malloc(N * sizeof(int*));
+        for (int i=0; i<N; i++)
+            graph[i] = (int*)malloc(N * sizeof(int));
+    
+        for (int i=0; i<N; i++) {
+            for (int j=0; j<N; j++) {
+                graph[i][j] = -1;
+            }
+        }
+
         for (int edge = 0; edge < M; edge++) {
             printf("For edge %d: ", edge+1);
-            if (scanf("%d %d %d", &graph[edge][0], &graph[edge][1], &graph[edge][2]) < 0) {
+            int start, end, weight;
+            if (scanf("%d %d %d", &start, &end, &weight) < 0) {
                 printf("ERROR IN INPUTTING DATA!\nSee help-\n");
                 help();
                 exit(1);
             }
-            if (graph[edge][0] > N || graph[edge][0] < 0 || graph[edge][1] > N || graph[edge][1] < 0) {
+            if (start > N || start < 1 || end > N || end < 1) {
                 printf("INCORRECT VALUE OF <starting node> OR <ending node>!\nSee help-\n");
                 help();
                 exit(1);
             }
+            if (weight < 0) {
+                printf("WEIGHT VALUE SHOULD BE >= 0!\nSee help-\n");
+                help();
+                exit(1);
+            }
+
+            if (start == end || end == R) {
+                //do nothing
+            } else {
+                if (graph[start-1][end-1] == -1) {
+                    graph[start-1][end-1] = weight;
+                } else {
+                    graph[start-1][end-1] = min(graph[start-1][end-1], weight);
+                }
+            }
         }
+
     }
 
     else { //wrong arguments
@@ -145,4 +189,5 @@ int main(int argc, char* argv[]) {
         help();
         exit(1);
     }
+
 }
