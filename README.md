@@ -7,8 +7,11 @@ This is a project for undergraduate course **CS302- Analysis and Design of Algor
 2. ~~precomputation functions:~~
     - ~~remove_edges~~
     - ~~choose_best_parallel_edge~~
-3. find_min_arbrorescence function
+3. ~~find_min_arbrorescence function~~
 4. ~~create_f_star function~~
 5. ~~check_cycle function~~
-6. compress_graph function
-7. decompress_arborescence function
+6. ~~compress_graph function~~
+7. ~~decompress_arborescence function~~
+8. bfs to check connectedness
+9. remove extra comments and variables within functions
+10. makefile

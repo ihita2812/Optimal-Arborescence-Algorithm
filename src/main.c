@@ -122,7 +122,6 @@ int main(int argc, char* argv[]) {
                     }
                 }
 
-                min_arbrorescence(graph, N, R);
             }
         }
 
@@ -193,5 +192,24 @@ int main(int argc, char* argv[]) {
         help();
         exit(1);
     }
+
+    /*
+    perform bfs on graph here
+    if not connected, exit program
+    with error to user
+    */
+
+    int* min_arbro = min_arbrorescence(graph, N, R);
+    printf("Chosen edges in min arbrorescence are:\n");
+    for (int i=0; i<N; i++) {
+        if (min_arbro[i] == -1) {
+            //
+        }
+        else {
+            printf("%d -> %d\n", min_arbro[i]+1, i+1);
+        }
+    }
+
+    return 0;   
 
 }

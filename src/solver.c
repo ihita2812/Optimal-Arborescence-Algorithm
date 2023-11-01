@@ -3,6 +3,8 @@
 int* min_arbrorescence(int** graph, int vertices, int root) {
 
     //--------debugging-------------------------------------------------
+    // printf("--------------------------------------------------------------------\n");
+    // printf("this is current graph:\n");
     // for (int i=0; i<vertices; i++) {
     //     for (int j=0; j<vertices; j++) {
     //         // if (graph[i][j] != -1) {
@@ -17,8 +19,9 @@ int* min_arbrorescence(int** graph, int vertices, int root) {
     int* f_star = create_f_star(graph, vertices, root);
 
     //--------debugging-------------------------------------------------
+    // printf("this is f_star\n");
     // for (int i=0; i<vertices; i++) {
-    //     printf("%d %d\n", i+1, f_star[i]+1);
+    //     printf("%d <- %d\n", i+1, f_star[i]+1);
     // }
     //--------debugging-------------------------------------------------
 
@@ -29,6 +32,7 @@ int* min_arbrorescence(int** graph, int vertices, int root) {
         int* cycle = find_cycle(vertices, cycleExists-1, f_star);
         
         int cycleSize = 0;
+        // printf("this is the cycle:\n");
         // printf("%d ", cycle[0]+1);
         for (int i=1; i<vertices; i++) {
             // printf("%d ", cycle[i]+1);
@@ -54,27 +58,44 @@ int* min_arbrorescence(int** graph, int vertices, int root) {
         int* mapFromNew;
         map2New = (int*)malloc(vertices * sizeof(int));
         mapFromNew = (int*)malloc(verticesDash * sizeof(int));    
-        int** graphDash = compress_graph(graph, vertices, root, f_star, inCycle, cycleSize, cycleExists-1, &rootDash, map2New ,mapFromNew);
+        int** graphDash = compress_graph(graph, vertices, root, f_star, inCycle, cycleSize, cycleExists-1, &rootDash, map2New, mapFromNew);
 
         //--------debugging-------------------------------------------------
-        printf("This is the map:\n");
-        for (int i=0; i<vertices; i++) {
-            printf("%d : %d\n", i+1, map2New[i]+1);
-        }
-        printf("-------------------------------------------------\n");
-        printf("This is the reverse map:\n");
-        for (int i=0; i<verticesDash; i++) {
-            printf("%d : %d\n", i+1, mapFromNew[i]+1);
-        }
-        printf("-------------------------------------------------\n");
-        printf("This is new graph:\n");
-        for (int i=0; i<verticesDash; i++) {
-            for (int j=0; j<verticesDash; j++) {
-                if (graphDash[i][j] != -1) {
-                    printf("%d %d %d\n", i+1, j+1, graphDash[i][j]);
-                }
-            }
-        }
+        // printf("This is the map:\n");
+        // for (int i=0; i<vertices; i++) {
+        //     printf("%d : %d\n", i+1, map2New[i]+1);
+        // }
+        // printf("This is the reverse map:\n");
+        // for (int i=0; i<verticesDash; i++) {
+        //     printf("%d : %d\n", i+1, mapFromNew[i]+1);
+        // }
+        // printf("This is new graph:\n");
+        // for (int i=0; i<verticesDash; i++) {
+        //     for (int j=0; j<verticesDash; j++) {
+        //         if (graphDash[i][j] != -1) {
+        //             printf("%d %d %d\n", i+1, j+1, graphDash[i][j]);
+        //         }
+        //     }
+        // }
+        //--------debugging-------------------------------------------------
+
+        int* min_arbro_array_Dash = min_arbrorescence(graphDash, verticesDash, rootDash);
+
+        //--------debugging-------------------------------------------------
+        // printf("this is arbro dash:\n");
+        // for (int i=0; i<verticesDash; i++) {
+        //     printf("%d -> %d\n", min_arbro_array_Dash[i]+1, i+1);
+        // }
+        //--------debugging-------------------------------------------------
+        
+        min_arbro_array = decompress_arborescence(graph, vertices, verticesDash, f_star, inCycle, min_arbro_array_Dash, mapFromNew);
+
+        //--------debugging-------------------------------------------------
+        // printf("this is arbro final:\n");
+        // for (int i=0; i<vertices; i++) {
+        //     printf("%d -> %d\n", min_arbro_array[i]+1, i+1);
+        // }
+        // printf("--------------------------------------------------------------------\n");
         //--------debugging-------------------------------------------------
 
     }
@@ -234,3 +255,58 @@ int** compress_graph(int** graph, int vertices, int root, int* minEdges, int* in
     return newGraph;
 }
 
+int* decompress_arborescence(int** graph, int vertices, int verticesDash, int* f_star, int* inCycle, int* arbroDash, int* GDash2G) {
+    int* arbro = (int*)malloc(vertices * sizeof(int));
+
+    for (int i=0; i<vertices; i++) {
+        arbro[i] = -1;
+    }
+
+    for (int i=0; i<verticesDash; i++) {
+        if (arbroDash[i] == -1) {
+            //do nothing
+        }
+        else {
+            if (inCycle[GDash2G[i]] == 0 && inCycle[GDash2G[arbroDash[i]]] == 0) {
+                arbro[GDash2G[i]] = GDash2G[arbroDash[i]];
+            }
+            else if (inCycle[GDash2G[i]] == 1) {
+                int connecterToTree = GDash2G[arbroDash[i]];
+                int bestWeight = 1e8;
+                int currentNode = GDash2G[i];
+                int bestNode = currentNode;
+
+                int itr = 0;
+                while (1) {
+                    if (currentNode == GDash2G[i] && itr > 0) break;
+                    if (graph[connecterToTree][currentNode] == -1) {
+                        //doesnt have a connection
+                    }
+                    else {
+                        if (graph[connecterToTree][currentNode] < bestWeight) {
+                            bestWeight = graph[connecterToTree][currentNode];
+                            bestNode = currentNode;
+                        }
+                    }
+                    currentNode = f_star[currentNode];
+                    itr++;
+                }
+
+                if (bestNode == -1) {
+                    printf("ERROR IN DECOMPRESSING!\n");
+                    exit(0);
+                }
+
+                arbro[bestNode] = connecterToTree;
+            }
+        }
+    }
+
+    for (int i=0; i<vertices; i++) {
+        if (arbro[i] == -1) {
+            arbro[i] = f_star[i];
+        }
+    }
+
+    return arbro;
+}
