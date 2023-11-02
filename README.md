@@ -3,11 +3,11 @@ Finding optimal aborescence for a directed graph using Chu-Liu-Edmond's algorith
 This is a project for undergraduate course **CS302- Analysis and Design of Algorithms**, under Dr. Apurva Mudgal at IIT Ropar.
 
 ## Constraints on graph:
+If any of the below constraints are not met, program will exit.
 1. The maximum number of vertices allowed in the graph is 500.
 2. Graph should be connected.
 3. The vertex numbers are indexed from 1.
-4. The edge weights should be non negative integers.<br>
-If any of the above constraints are not met, program will exit.
+4. The edge weights should be non negative integers.
 
 ## How to buid:
 ```console
@@ -23,9 +23,7 @@ $ ./algo.exe <arguments>
 There are 3 ways of running the program:
 
 ### Asking for help
-```console
-$ ./algo.exe help
-```
+`$ ./algo.exe help`
 Will display a short help message on how to run the program
 
 ### Entering arguments through a file
