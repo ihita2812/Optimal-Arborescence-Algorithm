@@ -1,6 +1,7 @@
 # Optimal-Arborescence-Algorithm
 Finding optimal aborescence for a directed graph using Chu-Liu-Edmond's algorithm.<br>
 This is a project for undergraduate course **CS302- Analysis and Design of Algorithms**, under Dr. Apurva Mudgal at IIT Ropar.
+[Project Presentation](https://docs.google.com/presentation/d/12N8q4DiZE-QIWOuyAPrBgfO6y67ZMOyHfxiQNvNXIyg/edit?usp=sharing)
 
 ## Constraints on graph:
 If any of the below constraints are not met, program will exit.
@@ -23,7 +24,7 @@ $ ./algo.exe <arguments>
 There are 3 ways of running the program:
 
 ### Asking for help
-`$ ./algo.exe help`
+`$ ./algo.exe help`<br>
 Will display a short help message on how to run the program
 
 ### Entering arguments through a file
