@@ -1,4 +1,4 @@
-#include "../include/solver.h"
+#include "solver.h"
 
 //bfs to check connectedness of graph
 int bfs(int** graph, int vertices, int startVertex) {

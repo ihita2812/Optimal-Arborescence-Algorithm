@@ -3,16 +3,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../include/solver.h"
+#include "solver.h"
 
 void help() {
     printf("\n-------------------------------------------------------\n");
     printf("\n        Methods to execute program:\n");
-    printf("(1) algo help\n");
+    printf("(1) ./algo.exe help\n");
     printf("                      or\n");
-    printf("(2) algo <testFile.txt>\n");
+    printf("(2) ./algo.exe <testFile.txt>\n");
     printf("                      or\n");
-    printf("(3) algo <number of vertices> <number of edges> <root node>\n\n");
+    printf("(3) ./algo.exe <number of vertices> <number of edges> <root node>\n\n");
     printf("\n        Details of each method:\n");
     printf("(1) Will print this help message.\n");
     printf("(2) Will start the program, guidelines for which are-\n");

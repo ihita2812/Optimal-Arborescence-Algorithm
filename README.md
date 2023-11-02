@@ -2,16 +2,56 @@
 Finding optimal aborescence for a directed graph using Chu-Liu-Edmond's algorithm.
 This is a project for undergraduate course **CS302- Analysis and Design of Algorithms**, under Dr. Apurva Mudgal at IIT Ropar.
 
-## Things to do:
-1. ~~add edge-weight (and other) checks to main~~
-2. ~~precomputation functions:~~
-    - ~~remove_edges~~
-    - ~~choose_best_parallel_edge~~
-3. ~~find_min_arbrorescence function~~
-4. ~~create_f_star function~~
-5. ~~check_cycle function~~
-6. ~~compress_graph function~~
-7. ~~decompress_arborescence function~~
-8. ~~bfs to check connectedness~~
-9. ~~remove extra comments and variables within functions~~
-10. makefile
+## Constraints on graph:
+1. The maximum number of vertices allowed in the graph is 500.
+2. Graph should be connected.
+3. The vertex numbers are indexed from 1.
+4. The edge weights should be non negative integers.
+If any of the above constraints are not met, program will exit.
+
+## How to buid:
+```console
+$ cd src
+$ make
+```
+
+## How to run:
+```console
+$ cd ../bin
+$ ./algo.exe <arguments>
+```
+There are 3 ways of running the program:
+
+### Asking for help
+`$ ./algo.exe help`
+Will display a short help message on how to run the program
+
+### Entering arguments through a file
+`$ ./algo.exe <name of test file>`
+- Test file should be in directory [test](test/).
+- Format of test file:
+    - First line should be 3 space seperated integers:
+        `<number of vertices(N)> <number of edges(M)> <root node(R)>`
+    - Then should follow M lines, describing M edges, each containing 3 space seperated integers:
+        `<starting node> <ending node> <weight of edge`
+
+### Entering arguments through command line
+`$ ./algo.exe <N> <M> <R>`
+- Here, N is the number of vertices, M is the number of edges and R is the root node.
+- Program will then prompt you to enter details of M edges in the same format as for input file.
+
+## How to clean:
+```console
+$ cd ../src
+$ make clean
+```
+
+## Contact for issues:
+sinhaihita@gmail.com
+
+## Creators:
+Ihita Sinha
+Rhitvik Anand
+Anshika
+Mohit Bhuria
+Shashank Kumar

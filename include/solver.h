@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../include/stl.h"
+#include "stl.h"
 
 int bfs(int** graph, int vertices, int startVertex);
 
