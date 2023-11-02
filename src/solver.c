@@ -1,5 +1,42 @@
 #include "../include/solver.h"
 
+//bfs to check connectedness of graph
+int bfs(int** graph, int vertices, int startVertex) {
+  kyu q;
+  kyu_init(&q);
+  
+  int* visited = (int*)malloc(vertices * sizeof(int));
+  for (int i=0; i<vertices; i++) {
+    visited[i] = 0;
+  }
+
+  int numVisited = 0;
+
+  visited[startVertex-1] = 1;
+  numVisited++;
+  kyu_push(&q, startVertex-1);
+  
+  while (q.size != 0) {
+    int currentVertex = kyu_pop(&q);
+    
+    for (int i=0; i<vertices; i++) {
+        if (graph[currentVertex][i] != -1) {
+            if (visited[i] == 0) {
+                visited[i] = 1;
+                numVisited++;
+                kyu_push(&q, i);
+            }
+        }
+    }
+  }
+
+  if (numVisited == vertices) return 1;
+  else if (numVisited < vertices) return 0;
+  else return -1;
+}
+
+//returns array of edges in the min arbroscence
+//if (u,v) is a selected edge, then min_arbro_array[v] = u
 int* min_arbrorescence(int** graph, int vertices, int root) {
 
     //--------debugging-------------------------------------------------
@@ -187,7 +224,7 @@ int* find_cycle(int vertices, int cycleStart, int* chosenEdges) {
     return foundCycle;
 }
 
-// compress_graph(graph, vertices, root, f_star, inCycle, cycleSize, cycleExists-1, map2New ,mapFromNew)
+//function to compress cycle into single node and return new graph
 int** compress_graph(int** graph, int vertices, int root, int* minEdges, int* inCycle, int cycleSize, int cycleBegin, int* newRoot, int* mapG2GDash, int* mapGDash2G) {
     int** newGraph;
 
@@ -255,6 +292,7 @@ int** compress_graph(int** graph, int vertices, int root, int* minEdges, int* in
     return newGraph;
 }
 
+//function to translate arbrorescence in compressed graph to real arbrorescence
 int* decompress_arborescence(int** graph, int vertices, int verticesDash, int* f_star, int* inCycle, int* arbroDash, int* GDash2G) {
     int* arbro = (int*)malloc(vertices * sizeof(int));
 

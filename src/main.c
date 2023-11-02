@@ -188,18 +188,24 @@ int main(int argc, char* argv[]) {
     }
 
     else { //wrong arguments
-        printf("TOO MANY ARGUMENTS!\nSee help-\n");
+        printf("INVALID NUMBER OF ARGUMENTS!\nSee help-\n");
         help();
         exit(1);
     }
 
-    /*
-    perform bfs on graph here
-    if not connected, exit program
-    with error to user
-    */
+    int connected = bfs(graph, N, R);
+    if (connected == 0) {
+        printf("Graph entered is not connected!\n");
+        exit(1);
+    } else if (connected == -1) {
+        printf("ERROR IN BFS!\n");
+        exit(1);
+    } else {
+        //
+    }
 
     int* min_arbro = min_arbrorescence(graph, N, R);
+    int cost = 0;
     printf("Chosen edges in min arbrorescence are:\n");
     for (int i=0; i<N; i++) {
         if (min_arbro[i] == -1) {
@@ -207,8 +213,10 @@ int main(int argc, char* argv[]) {
         }
         else {
             printf("%d -> %d\n", min_arbro[i]+1, i+1);
+            cost+= graph[min_arbro[i]][i];
         }
     }
+    printf("Cost of min arbrorescence: %d\n", cost);
 
     return 0;   
 
