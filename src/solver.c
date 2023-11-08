@@ -39,28 +39,9 @@ int bfs(int** graph, int vertices, int startVertex) {
 //if (u,v) is a selected edge, then min_arbro_array[v] = u
 int* min_arbrorescence(int** graph, int vertices, int root) {
 
-    //--------debugging-------------------------------------------------
-    // printf("--------------------------------------------------------------------\n");
-    // printf("this is current graph:\n");
-    // for (int i=0; i<vertices; i++) {
-    //     for (int j=0; j<vertices; j++) {
-    //         // if (graph[i][j] != -1) {
-    //             printf("%d %d %d\n", i+1, j+1, graph[i][j]);
-    //         // }
-    //     }
-    // }
-    //--------debugging--------------------------------------------------
-
     int* min_arbro_array;
 
     int* f_star = create_f_star(graph, vertices, root);
-
-    //--------debugging-------------------------------------------------
-    // printf("this is f_star\n");
-    // for (int i=0; i<vertices; i++) {
-    //     printf("%d <- %d\n", i+1, f_star[i]+1);
-    // }
-    //--------debugging-------------------------------------------------
 
     int cycleExists = check_cycle(vertices, root, f_star);
     if (cycleExists == 0)
@@ -69,10 +50,7 @@ int* min_arbrorescence(int** graph, int vertices, int root) {
         int* cycle = find_cycle(vertices, cycleExists-1, f_star);
         
         int cycleSize = 0;
-        // printf("this is the cycle:\n");
-        // printf("%d ", cycle[0]+1);
         for (int i=1; i<vertices; i++) {
-            // printf("%d ", cycle[i]+1);
             if (cycle[i] == cycle[0]) {
                 cycleSize = i;
                 break;
@@ -97,43 +75,9 @@ int* min_arbrorescence(int** graph, int vertices, int root) {
         mapFromNew = (int*)malloc(verticesDash * sizeof(int));    
         int** graphDash = compress_graph(graph, vertices, root, f_star, inCycle, cycleSize, cycleExists-1, &rootDash, map2New, mapFromNew);
 
-        //--------debugging-------------------------------------------------
-        // printf("This is the map:\n");
-        // for (int i=0; i<vertices; i++) {
-        //     printf("%d : %d\n", i+1, map2New[i]+1);
-        // }
-        // printf("This is the reverse map:\n");
-        // for (int i=0; i<verticesDash; i++) {
-        //     printf("%d : %d\n", i+1, mapFromNew[i]+1);
-        // }
-        // printf("This is new graph:\n");
-        // for (int i=0; i<verticesDash; i++) {
-        //     for (int j=0; j<verticesDash; j++) {
-        //         if (graphDash[i][j] != -1) {
-        //             printf("%d %d %d\n", i+1, j+1, graphDash[i][j]);
-        //         }
-        //     }
-        // }
-        //--------debugging-------------------------------------------------
-
         int* min_arbro_array_Dash = min_arbrorescence(graphDash, verticesDash, rootDash);
 
-        //--------debugging-------------------------------------------------
-        // printf("this is arbro dash:\n");
-        // for (int i=0; i<verticesDash; i++) {
-        //     printf("%d -> %d\n", min_arbro_array_Dash[i]+1, i+1);
-        // }
-        //--------debugging-------------------------------------------------
-        
         min_arbro_array = decompress_arborescence(graph, vertices, verticesDash, f_star, inCycle, min_arbro_array_Dash, mapFromNew);
-
-        //--------debugging-------------------------------------------------
-        // printf("this is arbro final:\n");
-        // for (int i=0; i<vertices; i++) {
-        //     printf("%d -> %d\n", min_arbro_array[i]+1, i+1);
-        // }
-        // printf("--------------------------------------------------------------------\n");
-        //--------debugging-------------------------------------------------
 
     }
 
